@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<transformation>
+  <info>
+    <name>transformA_busca_ultima_execucao</name>
+  </info>
+
+  <step>
+    <name>Busca ultima execução</name>
+    <type>TableInput</type>
+    <connection>postgres</connection>
+    <sql>
+      <![CDATA[
+        SELECT ultima_execucao
+        FROM etl_execucao
+        WHERE processo = 'cidades'
+        ORDER BY ultima_execucao DESC
+        LIMIT 1;
+      ]]>
+    </sql>
+  </step>
+
+  <step>
+    <name>Copy rows to result</name>
+    <type>RowsToResult</type>
+  </step>
+
+  <hop>
+    <from>Busca ultima execução</from>
+    <to>Copy rows to result</to>
+    <enabled>Y</enabled>
+  </hop>
+
+</transformation>
